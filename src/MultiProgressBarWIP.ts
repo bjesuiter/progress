@@ -1,6 +1,7 @@
 import { bgGreen, bgWhite, stripColor, writeAllSync } from "../deps.ts";
 import { prettyTime, prettyTimeOptions } from "../time.ts";
 import { ProgressBarData } from "./types/ProgressBarData.ts";
+import { ProgressBarString } from "./types/ProgressBarString.ts";
 
 const hasStdout = Deno.stdout;
 
@@ -15,12 +16,6 @@ interface constructorOptions {
   prettyTime?: boolean;
 }
 
-interface bar {
-  str: string;
-  strLen?: number;
-  end?: boolean;
-}
-
 export class MultiProgressBarWIP {
   width: number;
   complete: string;
@@ -33,7 +28,7 @@ export class MultiProgressBarWIP {
   #end = false;
   #startIndex = 0;
   #lastRows = 0;
-  #bars: bar[] = [];
+  #bars: ProgressBarString[] = [];
   private lastStr = "";
   private start = Date.now();
   private lastRenderTime = 0;
