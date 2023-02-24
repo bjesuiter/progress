@@ -15,10 +15,12 @@ Deno.test(`Use MultiProgressBar in a deno test`, async () => {
 
   let completed1 = 0;
   let completed2 = 0;
+  let completed3 = 0;
 
-  while (completed1 <= total || completed2 <= total) {
+  while (completed1 <= total || completed2 <= total || completed3 <= total) {
     completed1 += 1;
     completed2 += 2;
+    completed3 += 2;
     bars.render([
       {
         completed: completed1,
@@ -28,8 +30,9 @@ Deno.test(`Use MultiProgressBar in a deno test`, async () => {
         incomplete: ".",
       },
       { completed: completed2, total, text: "file2" },
+      { completed: completed3, total, text: "file3" },
     ]);
 
-    await delay(100);
+    await delay(50);
   }
 });
