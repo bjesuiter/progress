@@ -29,9 +29,13 @@ export class MultiProgressBarWIP {
   #startIndex = 0;
   #lastRows = 0;
   #bars: ProgressBarString[] = [];
-  private lastStr = "";
+  private lastRender = {
+    renderStr: "",
+    time: 0,
+  };
+  
   private start = Date.now();
-  private lastRenderTime = 0;
+
   private encoder = new TextEncoder();
 
   // Note from @bjesuiter: This MUST be a Lamda function compared to a class member function,
@@ -95,8 +99,8 @@ export class MultiProgressBarWIP {
     if (this.#end || !hasStdout) return;
 
     const now = Date.now();
-    const ms = now - this.lastRenderTime;
-    this.lastRenderTime = now;
+    const ms = now - this.lastRender.time;
+    this.lastRender.time = now;
     let end = true;
     let index = this.#startIndex;
 
@@ -166,10 +170,10 @@ export class MultiProgressBarWIP {
     if (ms < this.interval && end == false) return;
     const renderStr = this.#bars.map((v) => v.str).join("\n");
 
-    if (renderStr !== this.lastStr) {
+    if (renderStr !== this.lastRender.renderStr) {
       this.resetScreen();
       this.write(renderStr);
-      this.lastStr = renderStr;
+      this.lastRender.renderStr = renderStr;
       this.#lastRows = this.#bars.length;
     }
 
@@ -200,7 +204,7 @@ export class MultiProgressBarWIP {
     this.resetScreen();
     this.write(`${message}`);
     this.breakLine();
-    this.write(this.lastStr);
+    this.write(this.lastRender.renderStr);
   }
 
   private write(msg: string): void {
