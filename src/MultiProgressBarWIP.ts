@@ -15,15 +15,6 @@ interface constructorOptions {
   prettyTime?: boolean;
 }
 
-interface renderOptions {
-  completed: number;
-  text?: string;
-  total?: number;
-  complete?: string;
-  incomplete?: string;
-  prettyTimeOptions?: prettyTimeOptions;
-}
-
 interface bar {
   str: string;
   strLen?: number;
@@ -105,7 +96,7 @@ export class MultiProgressBarWIP {
    *   - `incomplete` - optional, incomplete character
    *   - `prettyTimeOptions` - prettyTime options
    */
-  render(bars: Array<renderOptions>): void {
+  render(bars: Array<ProgressBarData>): void {
     if (this.#end || !hasStdout) return;
 
     const now = Date.now();
