@@ -1,5 +1,6 @@
 import { bgGreen, bgWhite, stripColor, writeAllSync } from "../deps.ts";
 import { prettyTime, prettyTimeOptions } from "../time.ts";
+import { ProgressBarData } from "./types/ProgressBarData.ts";
 
 const hasStdout = Deno.stdout;
 
@@ -113,11 +114,10 @@ export class MultiProgressBarWIP {
     let end = true;
     let index = this.#startIndex;
 
-    for (const { completed, total = 100, text = "", ...options } of bars) {
-      if (completed < 0) {
-        throw new Error(`completed must greater than or equal to 0`);
-      }
-      if (!Number.isInteger(total)) throw new Error(`total must be 'number'`);
+    for (const bar of bars) {
+      const { completed, total = 100, text = "", ...options } = ProgressBarData
+        .parse(bar);
+
       if (this.#bars[index] && this.#bars[index].end) {
         index++;
         continue;
@@ -151,7 +151,7 @@ export class MultiProgressBarWIP {
         0,
         this.ttyColumns - str.replace(":bar", "").length,
       );
-      
+
       const width = Math.min(this.width, availableSpace);
       // :bar
       const completeLength = Math.round(width * completed / total);
