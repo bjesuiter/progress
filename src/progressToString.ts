@@ -23,7 +23,7 @@ export function progressToString(
         total: number,
         label: string,
         prettyTimeOn: boolean,
-        prettyTimeOptions: PrettyTimeOptions,
+        prettyTimeOptions?: PrettyTimeOptions,
         templateString: string,
         minWidth: number,
         completeChar: string,
@@ -98,8 +98,8 @@ export function progressToString(
             const result: ProgressBarString = {
                 str,
                 strLen,
-                end: completed >= total, 
-                cliRow
+                end: completed >= total,
+                cliTargetIndex: cliRow
             }
 
             controller.enqueue(result);
