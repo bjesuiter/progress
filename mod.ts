@@ -1,6 +1,7 @@
 import { bgGreen, bgWhite, stripColor, writeAllSync } from "./deps.ts";
 import { prettyTime, prettyTimeOptions } from "./time.ts";
 export { MultiProgressBar } from "./multi.ts";
+export * from "./src/MultiProgressBarWIP.ts";
 
 const hasStdout = Deno.stdout;
 
