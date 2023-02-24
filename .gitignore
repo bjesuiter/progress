@@ -1,3 +1,4 @@
 ./test
 registries
 deps
+.DS_Store
