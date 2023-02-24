@@ -4,7 +4,12 @@ export const ProgressBarString = z.object(
   {
    str: z.string(), 
    strLen: z.number().min(0).optional(),
-   end: z.boolean().optional()
+   end: z.boolean().optional(),
+
+   /**
+    * The row where this progress bar is located in the cli
+    */
+   cliRow: z.number()
   },
 );
 

@@ -17,7 +17,8 @@ export function progressToString(
         templateString,
         minWidth,
         completeChar,
-        incompleteChar
+        incompleteChar,
+        cliRow
     }: {
         total: number,
         label: string,
@@ -27,6 +28,7 @@ export function progressToString(
         minWidth: number,
         completeChar: string,
         incompleteChar: string,
+        cliRow: number,
     }) {
 
     let start = 0;
@@ -96,7 +98,8 @@ export function progressToString(
             const result: ProgressBarString = {
                 str,
                 strLen,
-                end: completed >= total
+                end: completed >= total, 
+                cliRow
             }
 
             controller.enqueue(result);
