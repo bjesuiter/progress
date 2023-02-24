@@ -7,8 +7,8 @@
 export const ESC = "\u001B[";
 
 export const POSITION = "6n";
-export const HIDE = "?25l";
-export const SHOW = "?25h";
+export const HIDE_CURSOR = "?25l";
+export const SHOW_CURSOR = "?25h";
 export const SCROLL_UP = "T";
 export const SCROLL_DOWN = "S";
 
