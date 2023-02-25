@@ -2,14 +2,15 @@ import { z } from "../../deps.ts";
 
 export const ProgressBarString = z.object(
   {
-   str: z.string(), 
-   strLen: z.number().min(0).optional(),
-   end: z.boolean().optional(),
+    str: z.string(),
+    strLen: z.number().min(0).optional(),
+    end: z.boolean().optional(),
 
-   /**
-    * The row where this progress bar is located in the cli
-    */
-   cliRow: z.number()
+    /**
+     * The relative index of all progress bars. 
+     * Used to calculate where this progress bar is located in the cli
+     */
+    cliTargetIndex: z.number()
   },
 );
 
