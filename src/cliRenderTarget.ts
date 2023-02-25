@@ -1,6 +1,7 @@
 import { ProgressBarString } from './types/ProgressBarString.ts';
 import { CLEAR_LINE, ESC, HIDE_CURSOR } from './types/AnsiEscapeCodes.ts';
 import { Signal, tty } from '../deps.ts';
+import { AnsiCommand } from './utils/AnsiCommand.ts';
 
 // function resetScreen() {
 //     if (this.#lastRows > 0) {
@@ -60,8 +61,17 @@ export function cliRenderTarget({ cliOriginRowIndex, totalBarCount }: { cliOrigi
 
                 const msg = `${bar.str} * ${allWriteCounts} * ${blockedWrites}`
 
+                const cmd = new AnsiCommand();
+
+                cmd.saveCursor()
+                    .moveLinesUp(moveDistance)
+                    // .clearLine()
+                    .plainText(msg)
+                    .restoreCursor();
+
+
                 // const renderString = `${ESC}${moveDistance}E${ESC}${CLEAR_LINE}${bar.str}${ESC}${moveDistance + 2}F`
-                const renderString = `${ESC}s${ESC}${moveDistance}F${ESC}${CLEAR_LINE}${msg}${ESC}u`
+                const renderString = cmd.getCommandString();
 
                 // write to cli 
                 await tty.write(renderString, Deno.stdout)
