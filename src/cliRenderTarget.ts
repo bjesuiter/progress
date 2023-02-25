@@ -63,7 +63,8 @@ export function cliRenderTarget({ cliOriginRowIndex, totalBarCount }: { cliOrigi
 
                 const cmd = new AnsiCommand();
 
-                cmd.saveCursor()
+                cmd
+                    .saveCursor()
                     .moveLinesUp(moveDistance)
                     // .clearLine()
                     .plainText(msg)
@@ -92,7 +93,7 @@ export function cliRenderTarget({ cliOriginRowIndex, totalBarCount }: { cliOrigi
             const renderString = `${ESC}s${ESC}${moveDistance}F${ESC}${CLEAR_LINE}${lastBar.str} * Stream finished! * ${ESC}u`
 
             // await tty.write(renderString, Deno.stdout)
-            // console.log(')
+            // console.log('Bob')
         },
         abort(reason) {
             console.error("Stream error:", reason);
