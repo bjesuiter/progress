@@ -133,8 +133,8 @@ export class MultiProgressBar {
       const eta = completed == 0
         ? "-"
         : this.prettyTime
-        ? prettyTime(msEta, options.prettyTimeOptions)
-        : (msEta / 1000).toFixed(1) +
+          ? prettyTime(msEta, options.prettyTimeOptions)
+          : (msEta / 1000).toFixed(1) +
           "s";
 
       // :bar :text :percent :time :completed/:total
@@ -151,7 +151,7 @@ export class MultiProgressBar {
         0,
         this.ttyColumns - str.replace(":bar", "").length,
       );
-      
+
       const width = Math.min(this.width, availableSpace);
       // :bar
       const completeLength = Math.round(width * completed / total);
