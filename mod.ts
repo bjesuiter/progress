@@ -1,7 +1,7 @@
 import { bgGreen, bgWhite, stripColor, writeAllSync } from "./deps.ts";
 import { prettyTime, prettyTimeOptions } from "./time.ts";
 export { MultiProgressBar } from "./multi.ts";
-export * from "./src/MultiProgressBarWIP.ts";
+// export * from "./src/MultiProgressBarWIP.ts";
 
 const hasStdout = Deno.stdout;
 
@@ -136,8 +136,8 @@ export default class ProgressBar {
     const eta = completed == 0
       ? "-"
       : this.prettyTime
-      ? prettyTime(msEta, options.prettyTimeOptions)
-      : (msEta / 1000).toFixed(1) +
+        ? prettyTime(msEta, options.prettyTimeOptions)
+        : (msEta / 1000).toFixed(1) +
         "s";
 
     const percent = ((completed / total) * 100).toFixed(2) + "%";
