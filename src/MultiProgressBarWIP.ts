@@ -2,6 +2,7 @@ import { bgGreen, bgWhite, stripColor, writeAllSync } from "../deps.ts";
 import { prettyTime, prettyTimeOptions } from "../time.ts";
 import { ProgressBarData } from "./types/ProgressBarData.ts";
 import { ProgressBarString } from "./types/ProgressBarString.ts";
+import { signal, effect, computed } from "../deps.ts"
 
 const hasStdout = Deno.stdout;
 
@@ -29,11 +30,14 @@ export class MultiProgressBarWIP {
   #startIndex = 0;
   #lastRows = 0;
   #bars: ProgressBarString[] = [];
-  private lastRender = {
-    renderStr: "",
-    time: 0,
-  };
-  
+
+  private lastRenderStr = signal('');
+  private lastRenderTime = signal(0);
+
+  private currentRenderTime = signal(Date.now());
+  private ms = computed(() => this.currentRenderTime.value - this.lastRenderTime.value)
+
+
   private start = Date.now();
 
   private encoder = new TextEncoder();
@@ -95,12 +99,11 @@ export class MultiProgressBarWIP {
    *   - `incomplete` - optional, incomplete character
    *   - `prettyTimeOptions` - prettyTime options
    */
-  render(bars: Array<ProgressBarData>): void {
+  render(bars: Array<ProgressBarData>) {
     if (this.#end || !hasStdout) return;
 
-    const now = Date.now();
-    const ms = now - this.lastRender.time;
-    this.lastRender.time = now;
+    this.currentRenderTime.value = Date.now();
+    this.lastRenderTime.value = this.currentRenderTime.value;
     let end = true;
     let index = this.#startIndex;
 
@@ -123,8 +126,8 @@ export class MultiProgressBarWIP {
       const eta = completed == 0
         ? "-"
         : this.prettyTime
-        ? prettyTime(msEta, options.prettyTimeOptions)
-        : (msEta / 1000).toFixed(1) +
+          ? prettyTime(msEta, options.prettyTimeOptions)
+          : (msEta / 1000).toFixed(1) +
           "s";
 
       // :bar :text :percent :time :completed/:total
