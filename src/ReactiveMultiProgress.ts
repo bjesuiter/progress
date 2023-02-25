@@ -3,7 +3,6 @@ import { ProgressBarDefinition } from './types/ProgressBarDefinition.ts';
 import { progressToString } from './progressToString.ts';
 import { cliRenderTarget } from './cliRenderTarget.ts';
 import { signal, tty } from "../deps.ts"
-import { simpleTimerStream } from 'https://deno.land/x/simple_timer_stream@1.0.0/mod.ts';
 import { simpleCallbackTarget } from "../tests/_testdeps.ts";
 
 export class ReactiveMultiProgress {
@@ -14,6 +13,7 @@ export class ReactiveMultiProgress {
 
     constructor() {
 
+        // Start output with an empty line
         tty.writeSync('\n', Deno.stdout);
 
     }
